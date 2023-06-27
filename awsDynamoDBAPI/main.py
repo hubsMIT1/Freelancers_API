@@ -22,6 +22,10 @@ table = dynamodb.Table(table_name)
 
 res = table.scan()
 itemss = res['Items']
+@app.route('/')
+def home():
+    return "<h1> Open the /freelancers</h1>"
+
 @app.route('/freelancers', methods=['GET'])
 def get_items():
     
