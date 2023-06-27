@@ -11,8 +11,8 @@ CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"], "header
 # connect with aws dynamodb table 
 print(os.environ.get('AWS_ACCESS_KEY_ID'))
 
-dynamodb = boto3.resource('dynamodb', aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID'),
-   aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY'),
+dynamodb = boto3.resource('dynamodb', aws_access_key_id = os.environ.get('AWS_ACCESS_KEY'),
+   aws_secret_access_key = os.environ.get('AWS_SRT_ACCESS_KEY'),
    region_name = os.environ.get('REGION_NAME'))
 table_name = 'freelancerList' 
 table = dynamodb.Table(table_name)
