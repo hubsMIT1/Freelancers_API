@@ -116,4 +116,4 @@ def search_freelancers(var):
         return jsonify({'message': 'No matching results found.'})
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

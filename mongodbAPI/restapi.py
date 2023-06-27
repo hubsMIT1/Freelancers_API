@@ -18,6 +18,10 @@ app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"], "headers": "Content-Type"}})
 
+@app.route('/')
+def home():
+    return "<h1> Open the /freelancers</h1>"
+
 @app.route('/freelancers')
 def get_data():
     #pagination
@@ -84,4 +88,4 @@ def search_freelancers(var):
     else:
         return jsonify({'message': 'No matching results found.'})
 if __name__ == '__main__':
-    app.run(debug=True,port=5001)
+    app.run()
