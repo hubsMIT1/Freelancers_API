@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+// import dotenv from 'react-dotenv';
 
+// dotenv.config();
 const FreelancerList = () => {
   const [freelancers, setFreelancers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +15,7 @@ const FreelancerList = () => {
 
   useEffect(() => {
     fetchFreelancers(currentPage, db);
-    console.log(db)
+    
   }, [currentPage, db, pageLimit]);
 
   useEffect(() => {
@@ -24,18 +26,14 @@ const FreelancerList = () => {
     }
   }, [searchQuery]);
 
-  // useEffect(() => {
-  //   setCurrentPage(1);
-  //   // fetchFreelancers(1, db);
-  //   // console.log(db)
-  // }, [db, pageLimit]);
+  
 
   const fetchFreelancers = async (page, db) => {
     try {
       setLoading(true); // Set loading state
-      let apiUrl = db !== 'dynamoDB' ? `http://localhost:5001/freelancers?page=${page}&limit=${pageLimit}` : `http://localhost:5000/freelancers?page=${page}&limit=${pageLimit}`;
+      let apiUrl = db !== 'dynamoDB' ? `${process.env.REACT_APP_MONGO_URL}/freelancers?page=${page}&limit=${pageLimit}` : `${process.env.REACT_APP_DYNAMO_URL}/freelancers?page=${page}&limit=${pageLimit}`;
 
-      console.log(apiUrl);
+     
 
       const response = await axios.get(apiUrl, {
         headers: { 'Access-Control-Allow-Origin': 'http://localhost:3000' },
@@ -46,7 +44,7 @@ const FreelancerList = () => {
       setTotalPages(total_pages);
       setLoading(false); // Clear loading state
     } catch (error) {
-      console.log('Error fetching freelancers:', error);
+      
       setFreelancers([])
       setLoading(false); // Clear loading state in case of error
     }
@@ -56,9 +54,9 @@ const FreelancerList = () => {
     if (searchQuery.trim() !== '') {
       try {
         setLoading(true); // Set loading state
-        const response = db === 'mongoDB' ? await axios.get(`http://localhost:5001/freelancers/search/${searchQuery}`, {
+        const response = db === 'mongoDB' ? await axios.get(`${process.env.REACT_APP_MONGO_URL}/freelancers/search/${searchQuery}`, {
           headers: { 'Access-Control-Allow-Origin': 'http://localhost:3000' },
-        }) : await axios.get(`http://localhost:5000/freelancers/search/${searchQuery}`);
+        }) : await axios.get(`${process.env.REACT_APP_DYNAMO_URL}/freelancers/search/${searchQuery}`);
 
         const { results } = response.data;
         setFreelancers('');
@@ -79,7 +77,7 @@ const FreelancerList = () => {
   const handleLimitChange = (e) => {
     // setPageLimit(e);
     setPageLimit(pageLimit.replace(/\D/g,''))
-    console.log(pageLimit);
+    
     setCurrentPage(1);
   };
 

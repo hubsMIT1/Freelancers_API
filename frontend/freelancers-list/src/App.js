@@ -2,6 +2,8 @@ import React from 'react';
 import FreelancerList from './Freelancerslist';
 
 const App = () => {
+ 
+
   return (
     <div>
       <h1 style={{textAlign:'center'}}>Freelancer List</h1>
@@ -9,5 +11,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;
