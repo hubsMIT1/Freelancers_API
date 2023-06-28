@@ -28,8 +28,7 @@ def create_dynamodb_table():
                 #     'AttributeName': 'count',
                 #     'AttributeType': 'N'
                 # },
-               
-                
+
             ],
             
             BillingMode='PAY_PER_REQUEST'
