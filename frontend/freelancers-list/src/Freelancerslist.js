@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-// import dotenv from 'react-dotenv';
 
-// dotenv.config();
+
 const FreelancerList = () => {
+  
   const [freelancers, setFreelancers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +15,7 @@ const FreelancerList = () => {
 
   useEffect(() => {
     fetchFreelancers(currentPage, db);
-    
+
   }, [currentPage, db, pageLimit]);
 
   useEffect(() => {
@@ -25,16 +25,10 @@ const FreelancerList = () => {
       fetchFreelancers(currentPage, db);
     }
   }, [searchQuery]);
-
-  
-
   const fetchFreelancers = async (page, db) => {
     try {
       setLoading(true); // Set loading state
       let apiUrl = db !== 'dynamoDB' ? `${process.env.REACT_APP_MONGO_URL}/freelancers?page=${page}&limit=${pageLimit}` : `${process.env.REACT_APP_DYNAMO_URL}/freelancers?page=${page}&limit=${pageLimit}`;
-
-     
-
       const response = await axios.get(apiUrl, {
         headers: { 'Access-Control-Allow-Origin': 'http://localhost:3000' },
       });
@@ -44,12 +38,13 @@ const FreelancerList = () => {
       setTotalPages(total_pages);
       setLoading(false); // Clear loading state
     } catch (error) {
-      
+
       setFreelancers([])
       setLoading(false); // Clear loading state in case of error
     }
   };
 
+  // handing searching item 
   const handleSearch = async () => {
     if (searchQuery.trim() !== '') {
       try {
@@ -74,13 +69,15 @@ const FreelancerList = () => {
     setCurrentPage(page);
   };
 
+  // limit to show the items
   const handleLimitChange = (e) => {
     // setPageLimit(e);
-    setPageLimit(pageLimit.replace(/\D/g,''))
-    
+    setPageLimit(pageLimit.replace(/\D/g, ''))
+
     setCurrentPage(1);
   };
 
+  // data tables 
   const renderTableRows = () => {
     if (freelancers && freelancers.length > 0) {
       return freelancers.map((freelancer, ind) => (
@@ -102,6 +99,7 @@ const FreelancerList = () => {
     }
   };
 
+  // pagination
   const renderPagination = () => {
     const pageButtons = [];
     const visiblePageCount = 5;
@@ -114,6 +112,7 @@ const FreelancerList = () => {
       startPage = Math.max(endPage - visiblePageCount + 1, 1);
     }
 
+    // left button to move on pages
     pageButtons.push(
       <button
         key="left"
@@ -136,7 +135,7 @@ const FreelancerList = () => {
         </button>
       );
     }
-
+// right shift pagination
     pageButtons.push(
       <button
         key="right"
@@ -176,7 +175,7 @@ const FreelancerList = () => {
           />
 
           <button onClick={handleLimitChange}>
-          {loading ? (
+            {loading ? (
               <span>Loading...</span>
             ) : (
               <span>Page Limit</span>
@@ -206,11 +205,11 @@ const FreelancerList = () => {
           </tr>
         </thead>
         <tbody>
-       
+
           {loading ? (
             <tr className="loader-container">
-      	      <td className="spinner"></td>
-          </tr>
+              <td className="spinner"></td>
+            </tr>
           ) : (
             <>
               {freelancers && freelancers.length > 0 ? (
