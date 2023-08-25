@@ -1,5 +1,5 @@
 # Freelancers_API
-- Demo Link : https://freelancerslist.onrender.com/
+- Demo Link : https://freelancerslist.onrender.com/ (dynamoDB has stopped now!!)
 - Clone the repo
 - Type the following command to run
   
